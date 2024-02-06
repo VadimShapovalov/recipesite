@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<h2 style="text-align: center;">Добро пожаловать на сайт рецептов!</h2>
+<h4 style="text-align: center;">На нашем сайте Вы найдете вкусные рецепты на все случаи жизни!</h4>
+<div class="cards">
+    {% for recipe in recipes %}
+    <div class="card">
+        <div><img src="{{ recipe.image.url }}" alt=""></div>
+        <div class="dish_title">{{ recipe.name }}</div>
+        <div class="dish_desc">{{ recipe.description | truncatewords:30 }}</div>
+        <div class="card_bot">
+            <div>{{ recipe.cook_time }} мин.</div>
+            <div><a href="{% url 'recipe' recipe.id %}" class="btn btn-warning my-2">Посмотреть рецепт</a></div>
+        </div>
+    </div>    
+    {% endfor %}
+</div>
+    {% endblock %}

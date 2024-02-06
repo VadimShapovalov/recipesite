@@ -1,0 +1,120 @@
+<!-- base_i.html -->
+{% load static %}
+{% load app1_tags %}
+<!-- base_i.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .header a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .middle {
+            display: flex;
+            flex: 1;
+        }
+
+        .left_menu {
+            width: 200px;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        .right_content {
+            flex: 1;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .right_content .card {
+            background-color: #ddd;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .copyright {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+    <title>Ваш Заголовок</title>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h4><a href="{% url 'index' %}">Главная страница</a></h4>
+        </div>
+        <div>
+            <h4><a href="{% url 'all_recipes' %}">Все рецепты</a></h4>
+        </div>
+        <div>
+            <h4><a href="#">Категории</a></h4>
+        </div>
+        <div>
+            <h4><a href="{% url 'add_recipe' %}">Добавить рецепт</a></h4>
+        </div>
+        {% if user.is_authenticated %}
+            <div>
+                <h4>{{ user.username }}</h4>
+            </div>
+            <div>
+                <h4><a href="{% url 'users:logout' %}">Выйти</a></h4>
+            </div>
+        {% else %}
+            <div>
+                <h4><a href="{% url 'users:register' %}">Регистрация</a></h4>
+            </div>
+            <div>
+                <h4><a href="{% url 'users:login' %}">Авторизоваться</a></h4>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="middle">
+        <div class="left_menu">
+            <div>
+                <h3>Категории</h3>
+            </div>
+            {% get_categories as categories %}
+            {% for cat in categories %}
+                <h4><a href="{% url 'category' cat.id %}">{{ cat.name }}</a></h4>
+            {% endfor %}
+        </div>
+        <div class="right_content">
+            {% block content %}{% endblock content %}
+            {% block navigation %}{% endblock %}
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>&copy; 2024 Копирование информации для распространения на других
+            ресурсах приветствуется.</p>
+    </div>
+
+</body>
+</html>

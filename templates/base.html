@@ -1,0 +1,90 @@
+{% load static %}
+{% load app1_tags %}
+
+<!DOCTYPE html>
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css'%}" type="text/css">
+</head>
+<body>
+    
+<div class="header ">
+
+        <div class="logo_1"><img src="{% static 'img/logo_1.jpg' %}" alt=""></div>
+        <h5><a href="{% url 'index' %}">Главная страница</a></h5>
+
+    <div>
+        <h5><a href="{% url 'all_recipes' %}">Все рецепты</a></h5>
+    </div>
+
+
+    <div>
+        <h5><a href="{% url 'add_recipe' %}">Добавить рецепт</a></h5>
+    </div>
+    {% if user.is_authenticated %}
+            <div>
+        <h5><a href="{% url 'author_recipes'  user.id %}">Редактировать рецепт</a></h5>
+    </div>
+    <div>
+            <h4><b><a href="{% url 'users:profile' %}">{{ user.username }}</a></b></h4>
+<!--        <h5>{{ user.username }}</h5>-->
+    </div>
+    <div>
+        <h5><a href="{% url 'users:logout' %}">Выйти</a></h5>
+    </div>
+    {% else %}
+    <div>
+        <h5><a href="{% url 'users:register' %}">Регистрация</a></h5>
+    </div>
+    <div>
+        <h5><a href="{% url 'users:login' %}">Авторизоваться</a></h5>
+    </div>
+    {% endif %}
+</div>
+
+<div class="middle">
+    <div class="left_menu">
+        <div ><h4>Категории</h4></div>
+        {% get_categories as cats %}
+        {% for cat in cats %}
+        <h5 ><a href="{% url 'category' cat.id %}">{{ cat.name }}</a></h5>
+        {% endfor %}
+    </div>
+    <div class="right_content">
+        <div class="main_block">
+        {% block content %}{% endblock content %}
+        {%  block navigation %}{% endblock %}
+        </div>
+        <div  class="copyright">
+            <div>
+                <p>&copy; 2024 Копирование информации для распространения на других
+                    ресурсах приветствуется.</p>
+            </div>
+            {% comment %} <div></div> {% endcomment %}
+        </div>
+    </div>
+
+</div>
+
+
+
+{% comment %} <div  class="copyright">
+    <div>
+        <p>&copy; 2024 Копирование информации для распространения на других
+            ресурсах приветствуется.</p>
+    </div>
+    <div></div>
+</div> {% endcomment %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+</html>

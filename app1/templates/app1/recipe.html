@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<center>
+
+    <div class="card" style="width: 70%; background-color: blanchedalmond;">
+        <img src="{{ recipe.image.url }}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h3 class="card-text" style="color: rgb(88, 12, 12);">{{recipe.name}}</h3>
+            <p style="color: coral;">Описание рецепта:</p>
+            <p class="card-text">{{recipe.description}}</p>
+            <p style="color: coral;">Ингридиенты:</p>
+            <p class="card-text"> {{recipe.ingredients}}</p>
+            <p style="color: coral;">Процесс приготовления:</p>
+            <p class="card-text"> {{recipe.cookingSteps}}</p>
+            <p style="color: coral;">Время готовки:</p>
+            <p class="card-text"> {{recipe.cook_time}}</p>
+            <p style="color: coral;">Автор рецепта:</p>
+            <p class="card-text">{{recipe.author}}</p>
+            {% with recipe.categories.all as cats %}
+            {% if cats %}
+            <p style="color: coral;">Категории:</p>
+                {% for t in cats %}
+                {{t}}
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+
+</center>
+{% endblock%}
